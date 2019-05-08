@@ -1,10 +1,15 @@
-sudo docker run \
--v "/srv/e/src:/srv/src:delegated" \
--v "/srv/e/zips:/srv/zips:delegated" \
--v "/srv/e/logs:/srv/logs:delegated" \
--v "/srv/e/ccache:/srv/ccache:delegated" \
+#!/bin/sh -e
+
+BASE="$( cd "$(dirname "$0")" ; pwd -P )"
+echo "Building in ${BASE}"
+
+docker run \
+-v "${BASE}/src:delegated" \
+-v "${BASE}/zips:/srv/zips:delegated" \
+-v "${BASE}/logs:/srv/logs:delegated" \
+-v "${BASE}/ccache:/srv/ccache:delegated" \
 -e "BRANCH_NAME=v1-nougat" \
--e "DEVICE_LIST=<my-device>" \
+-e "DEVICE_LIST=hammerhead" \
 -e "CUSTOM_PACKAGES='MuPDF GmsCore GsfProxy FakeStore com.google.android.maps.jar Telegram Signal Mail BlissLauncher BlissIconPack MozillaNlpBackend OpenWeatherMapWeatherProvider AccountManager MagicEarth OpenCamera eDrive Weather Notes Tasks NominatimNlpBackend Light DroidGuard OpenKeychain QKSMS Bromite BromiteWebView LibreOfficeViewer'" \
 -e "SIGNATURE_SPOOFING=restricted" \
 -e "OTA_URL=https://ota.ecloud.global/api" \
